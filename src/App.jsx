@@ -130,23 +130,23 @@ const Effects={
   fromData:d=>s=>{let ns=s;if(d.food)ns=Effects.food(d.food)(ns);if(d.wood)ns=Effects.wood(d.wood)(ns);if(d.mats)ns=Effects.mats(d.mats)(ns);if(d.morale)ns=Effects.morale(d.morale)(ns);if(d.threat)ns=Effects.threat(d.threat)(ns);return ns;},
 };
 const THREAT_EVENTS = [
-  {id:"cat_knows",title:"Kočka zná vchod",body:"Velká kočka sedí u vchodu do nory třetí noc v řadě. Nepohybuje se. Jen čeká. Ví přesně, kde jste.",choices:[
-    {label:"Odlákat — stojí 15 jídla",     desc:"Rozhodit jídlo daleko od nory.",        effect:s=>({...Effects.food(-15)(s),threat:5}),  lore:"Fungovalo to. Tentokrát."},
+  {id:"cat_knows",title:"Kočka zná vchod",body:"Velká kočka sedí u vchodu do nory třetí noc v řadě. Nehýbe se. Jen čeká. Ví přesně, že tam jste.",choices:[
+    {label:"Odlákat — stojí 15 jídla",     desc:"Rozhodit jídlo daleko od nory.",        effect:s=>({...Effects.food(-15)(s),threat:5}),  lore:"Fungovalo to. Protentokrát."},
     {label:"Zazdít vchod — 2 tahy uvěznění",desc:"Nikdo nevchází ani nevychází.",         effect:s=>({...injureRandom(s,"serious"),threat:5,blockedTurns:s.turn+2}), lore:"Tma a hlína. Ale bezpečno."},
     {label:"Čekat a doufat",               desc:"Možná odejde sama.",                    effect:s=>({...Effects.morale(-20)(s),threat:5}), lore:"Neodešla. Ale nakonec odešla."},
   ]},
-  {id:"rat_siege",title:"Obležení",body:"Dvanáct krys. Organizovaných. Se záseky v uších a trpělivostí, která naznačuje, že přišly zůstat.",choices:[
-    {label:"Vyjednávat — 10 jídla + 5 zásob",desc:"Odejdou. Ale teď vědí, že lze vyjednávat.",effect:s=>({...Effects.compose(Effects.food(-10),Effects.mats(-5))(s),threat:5}),lore:"Vyjednávání fungovalo. Bude příště dražší."},
+  {id:"rat_siege",title:"Obležení",body:"Dvanáct krys. Organizovaných. Uši mají zdobené zlatými kroužky a rituálními zářezy. Jejih odhodlání naznačuje, že se ve vaší noře rozhodly usadit natrvalo.",choices:[
+    {label:"Vyjednávat — 10 jídla + 5 zásob",desc:"Odejdou. Ale teď vědí, že na vás lze zatlačit.",effect:s=>({...Effects.compose(Effects.food(-10),Effects.mats(-5))(s),threat:5}),lore:"Vyjednávání fungovalo. Bude příště dražší."},
     {label:"Zapálit odpad u zdi — dřevo −8",  desc:"Kouř je rozežene.",                       effect:s=>({...Effects.wood(-8)(s),threat:5}),                                  lore:"Krysy nemají rády kouř."},
-    {label:"Evakuovat zásobárnu — zásoby −6", desc:"Schovej zásoby, nech je vzít prázdnou místnost.",effect:s=>({...Effects.mats(-6)(s),threat:5}),                           lore:"Vzaly to, co našly. Nezůstaly."},
+    {label:"Evakuovat zásobárnu — zásoby −6", desc:"Schovej zásoby, nech jev yplenit prázdné zásobárny.",effect:s=>({...Effects.mats(-6)(s),threat:5}),                           lore:"Vzaly to, co našly. Nezůstaly. Naštěstí."},
   ]},
-  {id:"owl_shadow",title:"Sova nad zahradou",body:"Nejdřív jen stín. Pak zmizela výprava. Pak bylo ticho, které trvá příliš dlouho.",choices:[
-    {label:"Vyhlásit zákaz nočního vycházení",desc:"Morálka −10, ale sběrači jsou v bezpečí. Platí 5 tahů.",effect:s=>({...Effects.morale(-10)(s),threat:5,curfew:s.turn+5}),lore:"Noci jsou dlouhé, ale nora je celá."},
-    {label:"Poslat nejrychlejší myš jako návnadu",desc:"60 % šance, že sova odletí.",effect:s=>{if(Math.random()<0.6)return{...s,threat:3};return{...injureRandom(s,"serious"),threat:5};},lore:"Rychlost je jediná ochrana."},
+  {id:"owl_shadow",title:"Sova krouží nad zahradou",body:"Nejdřív jen stín. Pak nenadále zmizela výprava. Pak bylo ticho, které už trvá příliš dlouho.",choices:[
+    {label:"Vyhlásit zákaz nočního vycházení",desc:"Morálka −10, ale sběrači jsou v bezpečí. Platí 5 tahů.",effect:s=>({...Effects.morale(-10)(s),threat:5,curfew:s.turn+5}),lore:"Noci jsou dlouhé, ale nora je bezpečná a plná vašich hřejivých spolunocležníků."},
+    {label:"Poslat nejrychlejší myš jako návnadu",desc:"60 % šance, že sovu odláká.",effect:s=>{if(Math.random()<0.6)return{...s,threat:3};return{...injureRandom(s,"serious"),threat:5};},lore:"Rychlost je jediná ochrana."},
     {label:"Přemístit zásobárnu hlouběji",desc:"Zásoby v bezpečí. Stavař zablokován 3 tahy.",effect:s=>({...s,threat:5,builderBlocked:s.turn+3}),lore:"Hluboko v zemi. Sova ji nenajde."},
   ]},
-  {id:"fox_watches",title:"Liška se vrátila",body:"Značky podél zdi jsou čerstvé. Obchází noru každou noc. Je chytrá způsobem, který působí osobně.",choices:[
-    {label:"Vybudovat klamnou noru — zásoby −8",desc:"Prázdná nora jinde. Soustředí pozornost na ni.",effect:s=>({...Effects.mats(-8)(s),threat:5}),lore:"Tři dny ji zkoumala. Pak přestala chodit."},
+  {id:"fox_watches",title:"Liška se vrátila",body:"Liščí pachové značky podél zdi jsou čerstvé. Obchází noru každou noc. Je chytrá způsobem, který si musíte chtě nechtě brát osobně.",choices:[
+    {label:"Vybudovat klamnou noru — zásoby −8",desc:"PSkočila na vaši návnadu. Soustředí pozornost na ni.",effect:s=>({...Effects.mats(-8)(s),threat:5}),lore:"Tři dny ji zkoumala. Pak přestala chodit."},
     {label:"Počkat na dešťovou noc a přemístit se",desc:"Déšť maže stopy. Riziko 40 %.",effect:s=>{const b={...Effects.morale(-5)(s),threat:5};return Math.random()<0.4?injureRandom(b,"minor"):b;},lore:"Déšť byl milosrdný."},
     {label:"Zůstat a přežít to — morálka −15",desc:"Zásoby nedotčeny.",effect:s=>({...Effects.morale(-15)(s),threat:5}),lore:"Nakonec odešla sama. Trvalo to příliš dlouho."},
   ]},
@@ -342,27 +342,27 @@ function processTurn(s){
     const locAtHex=locByHex[`${exploreTarget.c},${exploreTarget.r}`];if(locAtHex&&target){ns.pendingExplore={loc:locAtHex,hex:exploreTarget};}else{const tv=(exploreTarget.c*7+exploreTarget.r*13)%17;const terr=tv<3?"water":tv<6?"dense":tv<9?"meadow":"forest";const terrainLore=getTerrainLore(terr);const terrLabel={water:"Voda",dense:"Houštiny",meadow:"Louka",forest:"Les"};
 const TERRAIN_OUTCOMES={
   forest:[
-    {food:2,wood:1,mats:0,morale:0,threat:0,type:"good",title:"Les — bohatý podrost",lore:"Pod starými duby přirozené tunely kořenů. Průzkumníci se vrátili s plnými brašnami a nadrženýma nohama."},
-    {food:1,wood:2,mats:0,morale:0,threat:0,type:"good",title:"Les — padlé kmeny",lore:"Starý buk padl v zimní bouři — a nechal za sebou zásobu suchého dřeva přesně v dosahu."},
-    {food:0,wood:0,mats:0,morale:3,threat:-1,type:"good",title:"Les — hluboké ticho",lore:"Tak daleko od zdi, že nic neloví. Průzkumníci si na chvíli sedli a oddechli."},
-    {food:-1,wood:0,mats:0,morale:-3,threat:1,type:"bad",title:"Les — cizí pachové značky",lore:"Někdo jiný označil tento les jako svůj. Průzkumníci se stáhli opatrně."},
+    {food:2,wood:1,mats:0,morale:0,threat:0,type:"good",title:"Les — bohatý podrost",lore:"Pod starými duby se tvoří přirozené tunely z kořenů. Průzkumníci se vrátili s plnými brašnami a uťapanýma nohama."},
+    {food:1,wood:2,mats:0,morale:0,threat:0,type:"good",title:"Les — padlé kmeny",lore:"Starý buk padl v zimní bouři — a nechal za sebou zásobu suchého dřeva přesně v dosahu vaší skupiny sběračů."},
+    {food:0,wood:0,mats:0,morale:3,threat:-1,type:"good",title:"Les — hluboké ticho",lore:"Tak daleko od zdi, že zde nic neloví. Průzkumníci si na chvíli sedli a oddechli si ve stínu zeleného listí."},
+    {food:-1,wood:0,mats:0,morale:-3,threat:1,type:"bad",title:"Les — cizí pachové značky",lore:"Někdo jiný označil tento les jako svůj. Průzkumníci se raději opatrně stáhli."},
   ],
   meadow:[
-    {food:3,wood:0,mats:0,morale:0,threat:0,type:"good",title:"Louka — pozdní sklizeň",lore:"Suchá stébla stále plná semen. Průzkumníci sklízeli, dokud jim neselhávaly nohy."},
+    {food:3,wood:0,mats:0,morale:0,threat:0,type:"good",title:"Louka — pozdní sklizeň",lore:"Suchá stébla jsou stále plná semen. Průzkumníci sklízeli, dokud se im netřásly packy."},
     {food:2,wood:0,mats:1,morale:0,threat:0,type:"good",title:"Louka — otevřený terén",lore:"Bez úkrytu, ale plná možností. Průzkumníci se pohybovali rychle a vrátili se s plnými torbami."},
     {food:0,wood:0,mats:0,morale:0,threat:2,type:"bad",title:"Louka — příliš otevřeno",lore:"Na otevřeném prostranství se cítí každá myš jako terč. Průzkumníci spěchali."},
-    {food:1,wood:0,mats:0,morale:5,threat:0,type:"good",title:"Louka — slunce na srsti",lore:"Poprvé za dlouho teplé světlo bez stínu. Průzkumníci se vraceli zpěvem."},
+    {food:1,wood:0,mats:0,morale:5,threat:0,type:"good",title:"Louka — slunce kreslí prasátka na srsti",lore:"Poprvé za dlouhou dobu teplé světlo bez stínu. Průzkumníci se vraceli se zpěvem."},
   ],
   water:[
-    {food:2,wood:0,mats:0,morale:0,threat:0,type:"good",title:"Voda — rybí zásoby",lore:"Mělčina plná drobných rybiček. Průzkumníci si namočili tlapy a vrátili se s výlovem."},
-    {food:0,wood:0,mats:3,morale:0,threat:0,type:"good",title:"Voda — říční náplavy",lore:"Na břehu lidské předměty odplavené deštěm. Průzkumníci brali, co se dalo."},
-    {food:0,wood:0,mats:0,morale:-4,threat:0,type:"bad",title:"Voda — rozvodněno",lore:"Příliš hluboko, příliš rychle. Průzkumníci se vrátili mokří a mrzutí."},
+    {food:2,wood:0,mats:0,morale:0,threat:0,type:"good",title:"Voda — zásoby ryb",lore:"Mělčina plná drobných rybiček. Průzkumníci si namočili tlapy a vrátili se s úlovkem."},
+    {food:0,wood:0,mats:3,morale:0,threat:0,type:"good",title:"Voda — říční náplavy",lore:"Na břehu leží lidské předměty odplavené deštěm. Průzkumníci pobrali, co se dalo."},
+    {food:0,wood:0,mats:0,morale:-4,threat:0,type:"bad",title:"Voda — rozvodněná",lore:"Příliš hluboká, příliš rychlá. Průzkumníci se vrátili mokří a mrzutí."},
     {food:1,wood:0,mats:1,morale:2,threat:0,type:"good",title:"Voda — tiché jezírko",lore:"Klidná hladina, čiré dno. Průzkumníci si napili a nasbírali oblázky jako závaží."},
   ],
   dense:[
     {food:0,wood:3,mats:0,morale:0,threat:0,type:"good",title:"Houštiny — větve a proutí",lore:"Houštiny plné popadaných větví přesně správné tloušťky. Průzkumníci nosili, dokud jim vydržely záda."},
     {food:1,wood:0,mats:2,morale:0,threat:0,type:"good",title:"Houštiny — skrytá skrýš",lore:"Uprostřed houštiny dutý kmen — a v něm zásoby, které tu někdo zapomněl."},
-    {food:0,wood:0,mats:0,morale:-2,threat:2,type:"bad",title:"Houštiny — cosi v keřích",lore:"Praskání bez viditelné příčiny. Průzkumníci se nevraceli pomalu."},
+    {food:0,wood:0,mats:0,morale:-2,threat:2,type:"bad",title:"Houštiny — cosi v keřích",lore:"Praskání bez viditelné příčiny. Průzkumníci radši vzali nohy na ramena ."},
     {food:0,wood:1,mats:1,morale:0,threat:-1,type:"good",title:"Houštiny — přirozený kryt",lore:"Neprostupné pro větší tvory. Průzkumníci si uvědomili, že tady jsou v bezpečí."},
   ],
 };
@@ -529,7 +529,7 @@ ns.log=[...ns.log,{t:ns.turn,msg:`Průzkum — ${terrainOutcome.title}`,good:ter
     ns.morale=clamp(ns.morale+weather.moraleMod,0,100);
     ns.threat=clamp(ns.threat+weather.threatMod,0,10);
   }s.mice.forEach(m=>{if(m.trait==="greedy"&&!m.lost)ns.food=clamp(ns.food-0.5*(p.includes("communal")?2:1),0,ns.foodCap);});
-  if(ns.food<=0){ns.morale=clamp(ns.morale-8,0,100);ns.log=[...ns.log,{t:ns.turn,msg:"Prázdné zásoby — všichni hladoví.",good:false,title:"Hladová noc",lore:"Večeře byla řídká polévka a ticho."}];}
+  if(ns.food<=0){ns.morale=clamp(ns.morale-8,0,100);ns.log=[...ns.log,{t:ns.turn,msg:"Prázdné zásobárny — všichni hladoví.",good:false,title:"Hladová noc",lore:"K večeři byla řídká polévka a ticho."}];}
   if(hasBldg(ns,"hearthstone"))ns.morale=Math.max(20,ns.morale);if(hasBldg(ns,"thornwall"))ns.threat=Math.max(0,ns.threat-1);
   // Pohodlí — pasivní bonusy
   const comfort=getComfortLevel(ns.comfortPts||0);
@@ -537,7 +537,7 @@ ns.log=[...ns.log,{t:ns.turn,msg:`Průzkum — ${terrainOutcome.title}`,good:ter
   if(comfort.woodBonus>0)ns.wood=clamp(ns.wood+comfort.woodBonus,0,ns.woodCap);
   if(comfort.moraleFloor>0)ns.morale=Math.max(comfort.moraleFloor,ns.morale);
   if(comfort.threatBonus<0)ns.threat=Math.max(0,ns.threat+comfort.threatBonus);
-  // Pohodlí — léčení bonusu (level 2+): zraněná myš na odpočinku se léčí o tah dřív
+  // Pohodlí — léčení bonusu (level 2+): zraněná myš na odpočinku se vyléčí o tah dřív
   if(comfort.level>=2){ns.mice=ns.mice.map(m=>{if(m.injured&&a[m.id]==="rest")return{...m,injured:false};return m;});}
   // Zimní pasivní efekty
   if(activeWinter){
