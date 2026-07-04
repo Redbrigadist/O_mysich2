@@ -9,8 +9,8 @@
 export const MOUSE_NAMES = ["Lopuch","Jetel","Ostružina","Kopřiva","Sítina","Žaluď","Kapradí","Bodlák","Mech","Líska","Rákos","Šťovík","Střízlík","Cvrček","Dlažba","Žár","Popel","Křemen","Hloh","Řebříček","Jalovec","Oříšek","Bodlínek","Rákosník","Kamínek","Janovec","Rosa","Len","Kaštan"];
 export const TRAITS = [
   {id:"brave",   label:"Statečná",      glyph:"⚔", desc:"Snižuje hrozbu při průzkumu."},
-  {id:"green",   label:"Zelená tlapka", glyph:"☘", desc:"Sběrači přinášejí +1 jídlo/tah."},
-  {id:"stocky",  label:"Robustní",      glyph:"⚒", desc:"Nosiči přinášejí +1 dřevo/tah."},
+  {id:"green",   label:"Zelená tlapka", glyph:"☘", desc:"Myška přináší +1 jídlo/tah."},
+  {id:"stocky",  label:"Robustní",      glyph:"⚒", desc:"Nosič přináší +1 dřevo/tah."},
   {id:"clever",  label:"Chytrá",        glyph:"✦", desc:"Staví rychleji."},
   {id:"nervous", label:"Ustrašená",     glyph:"~", desc:"Postih při průzkumu."},
   {id:"cheerful",label:"Veselá",        glyph:"♪", desc:"Morálka +0.5 pasivně každý tah."},
