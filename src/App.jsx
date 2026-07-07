@@ -496,6 +496,14 @@ ns.log=[...ns.log,{t:ns.turn,msg:`Průzkum — ${terrainOutcome.title}`,good:ter
     const u=Math.min(ns.mats,counts["craft"]*2);ns.mats-=u;ns.wood=clamp(ns.wood+Math.floor(u/2),0,ns.woodCap);ns.food=clamp(ns.food+Math.floor(u/2),0,ns.foodCap);
   }
   const active=ns.mice.filter(m=>!m.lost).length;const eat=active-(p.includes("strict_ration")?2:0)-(p.includes("communal")?1:0);const dry=allB.find(b=>b.id==="dryroom"&&b.built)?1:0;ns.food=clamp(ns.food-eat+dry,0,ns.foodCap);
+  // Zásoby s pamětí — kazení čerstvého jídla
+  {const hasDryroom=hasBldg(ns,"dryroom");
+  const gained=Math.max(0,ns.food-(s.food||0));
+  ns.foodFresh=clamp((ns.foodFresh||0)+gained,0,ns.foodCap);
+  const fr=ns.foodFresh||0;
+  if(hasDryroom){const drying=Math.floor(fr*0.3);ns.foodFresh=fr-drying;ns.foodDried=clamp((ns.foodDried||0)+drying,0,ns.foodCap);}
+  else{const spoil=Math.floor(fr*0.2);const lost=Math.min(spoil,ns.food);ns.foodFresh=Math.max(0,fr-spoil);ns.food=clamp(ns.food-lost,0,ns.foodCap);if(lost>=3)ns.log=[...ns.log,{t:ns.turn,good:false,fluff:false,title:"Jídlo se kazí",msg:`${lost} jednotek jídla se zkazilo.`,lore:"Čerstvé zásoby bez sušárny nevydrží. Vlhko a čas dělají své."}];}
+  ns.food=clamp((ns.foodFresh||0)+(ns.foodDried||0),0,ns.foodCap);}
   s.mice.forEach(m=>{if(m.trait==="cheerful"&&!m.lost)ns.morale=clamp(ns.morale+0.5,0,100);});
   // Sny — každých 8 tahů náhodná myš dostane sen
   if(ns.turn - (ns.lastDreamTurn||0) >= 8){
