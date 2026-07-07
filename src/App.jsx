@@ -816,7 +816,7 @@ function VillageOverviewTab({s}){
 
     {/* Stav vesnice */}
     <ArtFrame variant="gold" style={{marginBottom:10}}>
-      <Label style={{marginBottom:8,letterSpacing:"0.06em"}}>STAV VRBNÍKU</Label>
+      <Label style={{marginBottom:8,letterSpacing:"0.06em"}}>STAV HLOŠINY</Label>
       <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8}}>
         <div>
           <Label style={{fontSize:10,marginBottom:3}}>SEZÓNA</Label>
@@ -962,13 +962,13 @@ function VillageOverviewTab({s}){
   </div>);
 }
 
-function VillageTab({s,availActions,assign}){
+function VillageTab({s,availActions,assign,onRepeat}){
   const[exp,setExp]=useState(null);
   return(<div>
     <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}>
       <Label>Přidělte každé myši úkol. Klikněte na kartu pro příběh a detaily.</Label>
       {Object.keys(s.lastAssignments||{}).length>0&&(
-        <button onClick={repeatLastTurn} style={{
+        <button onClick={onRepeat} style={{
           fontFamily:sansInk,fontSize:11,fontWeight:"bold",
           background:C.parchmentDark,border:`1.5px solid ${C.ink}`,
           boxShadow:`1px 1px 0 ${C.ink}`,color:C.inkFaded,
@@ -1628,7 +1628,7 @@ function IntroScreen({onContinue}){
   );
 }
 
-function HeaderSVG(){return(<svg width="100%" viewBox="0 0 680 84" style={{display:"block",marginBottom:4}}><rect width="680" height="84" fill={C.parchment}/><rect x="6" y="6" width="668" height="72" fill="none" stroke={C.ink} strokeWidth="2.5"/><rect x="12" y="12" width="656" height="60" fill="none" stroke={C.ink} strokeWidth="1"/>{[38,58,78,98,582,602,622,642].map((x,i)=>(<g key={i}><line x1={x} y1="6" x2={x} y2="22" stroke={C.ink} strokeWidth="2"/><line x1={x} y1="62" x2={x} y2="78" stroke={C.ink} strokeWidth="2"/></g>))}<text x="340" y="45" textAnchor="middle" fontFamily={inkFont} fontSize="25" fontWeight="bold" fontStyle="italic" fill={C.ink}>O myších a zimě</text><text x="340" y="63" textAnchor="middle" fontFamily={sansInk} fontSize="11" letterSpacing="4" fill={C.inkFaded}>PŘÍBĚH VRBNÍKU</text></svg>);}
+function HeaderSVG(){return(<svg width="100%" viewBox="0 0 680 84" style={{display:"block",marginBottom:4}}><rect width="680" height="84" fill={C.parchment}/><rect x="6" y="6" width="668" height="72" fill="none" stroke={C.ink} strokeWidth="2.5"/><rect x="12" y="12" width="656" height="60" fill="none" stroke={C.ink} strokeWidth="1"/>{[38,58,78,98,582,602,622,642].map((x,i)=>(<g key={i}><line x1={x} y1="6" x2={x} y2="22" stroke={C.ink} strokeWidth="2"/><line x1={x} y1="62" x2={x} y2="78" stroke={C.ink} strokeWidth="2"/></g>))}<text x="340" y="45" textAnchor="middle" fontFamily={inkFont} fontSize="25" fontWeight="bold" fontStyle="italic" fill={C.ink}>O myších a zimě</text><text x="340" y="63" textAnchor="middle" fontFamily={sansInk} fontSize="11" letterSpacing="4" fill={C.inkFaded}>PŘÍBĚH HLOŠINY</text></svg>);}
 
 function SavePreview(){
   const[info,setInfo]=useState(null);useEffect(()=>{loadGame().then(d=>{if(d)setInfo(d);});},[]);if(!info)return null;
@@ -1782,7 +1782,7 @@ export default function App(){
         <button onClick={()=>setShowHelp(true)} style={{fontFamily:sansInk,fontSize:14,fontWeight:"bold",background:C.parchmentDark,border:`2px solid ${C.ink}`,boxShadow:`2px 2px 0 ${C.ink}`,width:38,height:38,cursor:"pointer",flexShrink:0,color:C.inkFaded}}>?</button>
       </div>
       {tab==="overview"&&<VillageOverviewTab s={s}/>}
-      {tab==="mice" &&<VillageTab s={s} availActions={availActions} assign={assign}/>}
+      {tab==="mice" &&<VillageTab s={s} availActions={availActions} assign={assign} onRepeat={repeatLastTurn}/>}
       {tab==="build"&&<BuildTab   s={s} onQueue={setQueue} onQueueCraft={setCraftQueue}/>}
       {tab==="expeditions"&&<ExpeditionTab s={s} onSendExpedition={sendExpedition} onDismissChoices={()=>setS(p=>({...p,expeditionChoices:[]}))} onForceShow={forceShowExpeditions}/>}
       {tab==="map"  &&<MapTab     s={s} selectedHex={selectedHex} setSelectedHex={setSelectedHex}/>}
