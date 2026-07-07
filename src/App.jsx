@@ -551,7 +551,7 @@ ns.log=[...ns.log,{t:ns.turn,msg:`Průzkum — ${terrainOutcome.title}`,good:ter
   ns.threat=clamp(ns.threat+season.tg+(p.includes("open_burrow")?1:0)-(p.includes("night_watch")?2:0)+(p.includes("harvest_moon")?0.5:0),0,10);
   const arrBonus=hasBldg(ns,"burrowinn")?0.2:0;
   if(ns.turn%5===0&&Math.random()<(p.includes("open_burrow")?0.7:0.5)+arrBonus&&ns.mice.length<8){const nm=mkMouse();const tObj=TRAITS.find(t=>t.id===nm.trait)||{label:"Neznámá"};ns.mice=[...ns.mice,nm];ns.morale=clamp(ns.morale+5,0,100);ns.log=[...ns.log,{t:ns.turn,msg:`${nm.fullName??nm.name} (${tObj.label}) se připojila k vesnici!`,good:true,title:`${nm.fullName??nm.name} přichází`,lore:"Přišla za soumraku s opotřebovanou torbou a opatrným úsměvem."}];}
-  ns.turn=ns.turn+1;if(ns.pendingExplore){ns.phase="explore";return ns;}if(ns.pendingResult){return ns;}return checkNextPhase(ns);
+  ns.turn=ns.turn+1;ns.lastAssignments={...(s.assignments||{})};if(ns.pendingExplore){ns.phase="explore";return ns;}if(ns.pendingResult){return ns;}return checkNextPhase(ns);
 }
 
 // ── UI Primitives ─────────────────────────────────────────────────────────────
